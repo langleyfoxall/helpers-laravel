@@ -1,0 +1,45 @@
+{
+  "name": "langleyfoxall/helpers-laravel",
+  "description": "A collection of useful classes to help making Laravel applications easier",
+  "minimum-stability": "dev",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "helpers",
+    "php",
+    "laravel"
+  ],
+  "homepage": "https://github.com/LFSoftware/helpers-laravel",
+  "support": {
+    "issues": "https://github.com/LFSoftware/helpers-laravel/issues",
+    "source": "https://github.com/LFSoftware/helpers-laravel"
+  },
+  "authors": [
+    {
+      "name": "Dexter Marks-Barber",
+      "email": "dexter@langleyfoxall.co.uk",
+      "role": "Maintainer"
+    },
+    {
+      "name": "Jared Wheatley",
+      "email": "jared@langleyfoxall.co.uk",
+      "role": "Reviewer"
+    }
+  ],
+  "require": {
+    "php": "^7.1.3"
+  },
+  "require-dev": {
+    "laravel/framework": "5.6.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "LangleyFoxall\\": "src/LangleyFoxall/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.x-dev"
+    }
+  }
+}
