@@ -3,7 +3,7 @@
   "description": "A collection of useful classes to help making Laravel applications easier",
   "minimum-stability": "dev",
   "type": "library",
-  "license": "LGPL-3.0",
+  "license": "LGPL-3.0-only",
   "keywords": [
     "helpers",
     "php",
@@ -18,6 +18,11 @@
     {
       "name": "Dexter Marks-Barber",
       "email": "dexter@langleyfoxall.co.uk",
+      "role": "Maintainer"
+    },
+    {
+      "name": "Jordan Hall",
+      "email": "jordan@langleyfoxall.co.uk",
       "role": "Maintainer"
     },
     {
