@@ -3,7 +3,7 @@
   "description": "A collection of useful classes to help making Laravel applications easier",
   "minimum-stability": "dev",
   "type": "library",
-  "license": "LGPL-3.0",
+  "license": "LGPL-3.0-only",
   "keywords": [
     "helpers",
     "php",
@@ -21,16 +21,21 @@
       "role": "Maintainer"
     },
     {
+      "name": "Jordan Hall",
+      "email": "jordan@langleyfoxall.co.uk",
+      "role": "Maintainer"
+    },
+    {
       "name": "Jared Wheatley",
       "email": "jared@langleyfoxall.co.uk",
       "role": "Reviewer"
     }
   ],
   "require": {
-    "php": "^7.0.0"
-  },
-  "require-dev": {
-    "laravel/framework": "5.6.*"
+    "php": "^7.0.0",
+    "illuminate/support": "5.5.*||5.6.*",
+    "illuminate/database": "5.5.*||5.6.*",
+    "illuminate/http": "5.5.*||5.6.*"
   },
   "autoload": {
     "psr-4": {
