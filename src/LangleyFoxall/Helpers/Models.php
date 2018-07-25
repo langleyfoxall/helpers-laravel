@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 abstract class Models
 {
     /**
-     * Returns a collections of class names for all Eloquent models within your app path.
+     * Returns a collection of class names for all Eloquent models within your app path.
      *
      * @return \Illuminate\Support\Collection
      */
