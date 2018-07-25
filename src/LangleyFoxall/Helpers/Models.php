@@ -31,10 +31,10 @@ abstract class Models
     /**
      * Converts a file name to a namespaced class name.
      *
-     * @param $file
+     * @param string $file
      * @return string
      */
-    private static function convertFileToClass($file)
+    private static function convertFileToClass(string $file)
     {
         $fh = fopen($file, 'r');
 
