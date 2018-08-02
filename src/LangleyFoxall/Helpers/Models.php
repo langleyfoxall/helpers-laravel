@@ -3,6 +3,7 @@
 namespace LangleyFoxall\Helpers;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 /**
  * Class Models
@@ -53,5 +54,36 @@ abstract class Models
         $class = basename(str_replace('.php', '', $file));
 
         return $namespace.'\\'.$class;
+    }
+
+    /**
+     * UTF-8 encodes the attributes of a model.
+     *
+     * @param Model $model
+     * @return Model
+     */
+    public static function utf8EncodeModel(Model $model)
+    {
+        foreach($model->toArray() as $key => $value) {
+            if (is_numeric($value) || !is_string($value)) {
+                continue;
+            }
+            $model->$key = utf8_encode($value);
+        }
+
+        return $model;
+    }
+
+    /**
+     * UTF-8 encodes the attributes of a collection of models.
+     *
+     * @param Collection $models
+     * @return Collection
+     */
+    public static function utf8EncodeModels(Collection $models)
+    {
+        return $models->map(function($model) {
+            return self::utf8EncodeModel($model);
+        });
     }
 }
