@@ -4,6 +4,7 @@ namespace LangleyFoxall\Helpers;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * Class Models
@@ -85,5 +86,16 @@ abstract class Models
         return $models->map(function($model) {
             return self::utf8EncodeModel($model);
         });
+    }
+
+    /**
+     * Gets an array of the columns in this model's database table
+     *
+     * @param Model $model
+     * @return mixed
+     */
+    public static function getColumns(Model $model)
+    {
+        return Schema::getColumnListing($model->getTable());
     }
 }
