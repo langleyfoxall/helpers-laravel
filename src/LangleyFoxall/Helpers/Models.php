@@ -4,6 +4,7 @@ namespace LangleyFoxall\Helpers;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 /**
@@ -97,5 +98,23 @@ abstract class Models
     public static function getColumns(Model $model)
     {
         return Schema::getColumnListing($model->getTable());
+    }
+
+    /**
+     * Gets the next auto-increment id for a model
+     *
+     * @param Model $model
+     * @return int
+     * @throws \Exception
+     */
+    public static function getNextId(Model $model)
+    {
+        $statement = DB::select('show table status like \''.$model->getTable().'\'');
+
+        if (!isset($statement[0]) || !isset($statement[0]->Auto_increment)) {
+            throw new \Exception('Unable to retrieve next auto-increment id for this model.');
+        }
+
+        return (int) $statement[0]->Auto_increment;
     }
 }
