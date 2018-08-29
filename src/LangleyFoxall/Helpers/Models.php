@@ -133,15 +133,25 @@ abstract class Models
 
 			foreach ($relations as $key => $current) {
 				if (!is_array($current)) {
+					$previous = null;
+
+					if ($key > 0) {
+						$previous = $relations[ $key - 1 ];
+						$previous = is_array($previous)
+							? $previous[ 0 ] : $previous;
+					}
+
 					$basename = strtolower(class_basename($current));
 					$method   = Str::plural($basename);
 
-					if (!method_exists($current, $method)) {
-						$method = Str::singular($basename);
-					}
+					if (!is_null($previous)) {
+						if (!method_exists($previous, $method)) {
+							$method = Str::singular($basename);
+						}
 
-					if (!method_exists($current, $method)) {
-						throw new \Exception('UNABLE_TO_FIND_RELATIONSHIP');
+						if (!method_exists($previous, $method)) {
+							throw new \Exception('UNABLE_TO_FIND_RELATIONSHIP');
+						}
 					}
 
 					$relations[ $key ] = [ $current, $method ];
@@ -162,7 +172,7 @@ abstract class Models
 			}
 
 			return true;
-		} catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+		} catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 			return false;
 		}
 	}
