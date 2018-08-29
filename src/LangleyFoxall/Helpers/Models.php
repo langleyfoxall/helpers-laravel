@@ -122,25 +122,33 @@ abstract class Models
 	/**
 	 * Check if any number of models are related to each other
 	 *
-	 * @param Model $a
-	 * @param Model $b
+	 * @param Model[]|array[] $relations
+	 * @throws \InvalidArgumentException|\Exception
 	 * @return bool
 	 */
-	public static function areRelated($a, $b)
+	public static function areRelated(...$relations)
 	{
 		try {
-			$relations = func_get_args();
-			$max_key   = count($relations) - 1;
+			$max_key = count($relations) - 1;
 
-			foreach ($relations as $key => &$relation) {
-				if (!is_array($relation)) {
-					$basename = strtolower(class_basename($relation));
+			foreach ($relations as $key => $current) {
+				if (!is_array($current)) {
+					$basename = strtolower(class_basename($current));
+					$method   = Str::plural($basename);
 
-					$relation = [ $relation, Str::plural($basename) ];
+					if (!method_exists($current, $method)) {
+						$method = Str::singular($basename);
+					}
+
+					if (!method_exists($current, $method)) {
+						throw new \Exception('UNABLE_TO_FIND_RELATIONSHIP');
+					}
+
+					$relations[ $key ] = [ $current, $method ];
 				}
 
-				if (!($relation[ 0 ] instanceof Model)) {
-					throw new \Exception('INVALID_MODEL');
+				if (!($relations[ $key ][ 0 ] instanceof Model)) {
+					throw new \InvalidArgumentException('INVALID_MODEL');
 				}
 			}
 
@@ -149,12 +157,12 @@ abstract class Models
 					$model    = $current[ 0 ];
 					$relation = $relations[ $key + 1 ];
 
-					$model->{$relation[ 1 ]}->findOrFail($relation[ 0 ]->id);
+					$model->{$relation[ 1 ]}()->findOrFail($relation[ 0 ]->id);
 				}
 			}
 
 			return true;
-		} catch(\Exception $e) {
+		} catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 			return false;
 		}
 	}
