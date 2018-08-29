@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 /**
  * Class Models
@@ -117,4 +118,44 @@ abstract class Models
 
         return (int) $statement[0]->Auto_increment;
     }
+
+	/**
+	 * Check if any number of models are related to each other
+	 *
+	 * @param Model $a
+	 * @param Model $b
+	 * @return bool
+	 */
+	public static function areRelated($a, $b)
+	{
+		try {
+			$relations = func_get_args();
+			$max_key   = count($relations) - 1;
+
+			foreach ($relations as $key => &$relation) {
+				if (!is_array($relation)) {
+					$basename = strtolower(class_basename($relation));
+
+					$relation = [ $relation, Str::plural($basename) ];
+				}
+
+				if (!($relation[ 0 ] instanceof Model)) {
+					throw new \Exception('INVALID_MODEL');
+				}
+			}
+
+			foreach ($relations as $key => $current) {
+				if ($key !== $max_key) {
+					$model    = $current[ 0 ];
+					$relation = $relations[ $key + 1 ];
+
+					$model->{$relation[ 1 ]}->findOrFail($relation[ 0 ]->id);
+				}
+			}
+
+			return true;
+		} catch(\Exception $e) {
+			return false;
+		}
+	}
 }
