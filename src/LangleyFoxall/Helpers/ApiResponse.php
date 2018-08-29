@@ -1,7 +1,7 @@
 <?php
 namespace LangleyFoxall\Helpers;
 
-class ApiResponse
+class ApiResponse implements \ArrayAccess
 {
 	/** @var int $status */
 	protected $status;
@@ -21,11 +21,11 @@ class ApiResponse
 	/**
 	 * ApiResponse constructor.
 	 *
-	 * @param bool $success
+	 * @param bool              $success
 	 * @param array|null|string $error
-	 * @param array|null $data
-	 * @param array|null $meta
-	 * @param int $status
+	 * @param array|null        $data
+	 * @param array|null        $meta
+	 * @param int               $status
 	 */
 	public function __construct(bool $success = true, $error = null, $data = null, $meta = null, int $status = 200)
 	{
@@ -39,7 +39,7 @@ class ApiResponse
 	/**
 	 * @param array|null $data
 	 * @param array|null $meta
-	 * @param int $status
+	 * @param int        $status
 	 * @return ApiResponse
 	 */
 	public static function success($data = null, $meta = null, int $status = 200)
@@ -55,7 +55,7 @@ class ApiResponse
 
 	/**
 	 * @param mixed $error
-	 * @param int $status
+	 * @param int   $status
 	 * @return ApiResponse
 	 */
 	public static function error($error = null, int $status = 400)
@@ -109,5 +109,41 @@ class ApiResponse
 	{
 		return response()->json(get_object_vars($this))
 						 ->setStatusCode($this->status);
+	}
+
+	/**
+	 * @param string $offset
+	 * @return bool
+	 */
+	public function offsetExists($offset)
+	{
+		return isset($this->data[ $offset ]);
+	}
+
+	/**
+	 * @param string $offset
+	 * @return mixed|null
+	 */
+	public function offsetGet($offset)
+	{
+		return isset($this->data[ $offset ])
+			? $this->data[ $offset ] : null;
+	}
+
+	/**
+	 * @param string $offset
+	 * @param mixed $value
+	 */
+	public function offsetSet($offset, $value)
+	{
+		$this->data[ $offset ] = $value;
+	}
+
+	/**
+	 * @param string $offset
+	 */
+	public function offsetUnset($offset)
+	{
+		unset($this->data[ $offset ]);
 	}
 }
