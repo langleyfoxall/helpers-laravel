@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 /**
  * Class Models
@@ -117,4 +118,52 @@ abstract class Models
 
         return (int) $statement[0]->Auto_increment;
     }
+
+	/**
+	 * Check if any number of models are related to each other
+	 *
+	 * @param Model[]|array[] $relations
+	 * @throws \InvalidArgumentException|\Exception
+	 * @return bool
+	 */
+	public static function areRelated(...$relations)
+	{
+		try {
+			$max_key = count($relations) - 1;
+
+			foreach ($relations as $key => $current) {
+				if (!is_array($current)) {
+					$basename = strtolower(class_basename($current));
+					$method   = Str::plural($basename);
+
+					if (!method_exists($current, $method)) {
+						$method = Str::singular($basename);
+					}
+
+					if (!method_exists($current, $method)) {
+						throw new \Exception('UNABLE_TO_FIND_RELATIONSHIP');
+					}
+
+					$relations[ $key ] = [ $current, $method ];
+				}
+
+				if (!($relations[ $key ][ 0 ] instanceof Model)) {
+					throw new \InvalidArgumentException('INVALID_MODEL');
+				}
+			}
+
+			foreach ($relations as $key => $current) {
+				if ($key !== $max_key) {
+					$model    = $current[ 0 ];
+					$relation = $relations[ $key + 1 ];
+
+					$model->{$relation[ 1 ]}()->findOrFail($relation[ 0 ]->id);
+				}
+			}
+
+			return true;
+		} catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+			return false;
+		}
+	}
 }
