@@ -3,7 +3,7 @@ A repository of laravel specific helper classes to help standardise work. API he
 
 ## Helpers
 - [`Models`](#models)
-- [`ApiResponse`](#api-response)
+- [`ApiResponse`](#apiresponse)
 - [`Response`](#response)
 
 
@@ -133,12 +133,12 @@ After building up the response, before returning it from a [Controller](https://
 
 #### Methods
 
-- `success`
-- `error`
-- `data`
-- `meta`
-- `status`
-- `json`
+- [`success`](#success)
+- [`error`](#error)
+- [`data`](#data)
+- [`meta`](#meta)
+- [`status`](#status)
+- [`json`](#json)
 
 
 ##### `success`
