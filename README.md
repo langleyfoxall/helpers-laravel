@@ -113,8 +113,127 @@ $related = Models::areRelated($user, $post, [$comment, 'comments'])
 | Throws| [Exception](http://php.net/manual/en/class.exception.php) or [InvalidArgumentException](http://php.net/manual/en/class.invalidargumentexception.php) |
 | Returns | [Boolean](http://php.net/manual/en/language.types.boolean.php) |
 
+---
 
 ### `ApiResponse`
+The [ApiResponse helper](src/LangleyFoxall/Helpers/ApiResponse.php) standardizes an API response. Always containing the same fields:
 
+| Key | Type | Description |
+| --- | ---- | ----------- |
+| `status` | [Integer](http://php.net/manual/en/language.types.integer.php) | `status` is used for accessibility when the response cannot access the HTTP client, such as axios | 
+| `success` | [Boolean](http://php.net/manual/en/language.types.boolean.php) | `success` is a boolean to signify that an operation was successful or not |
+| `error` | [NULL](http://php.net/manual/en/language.types.null.php), [String](http://php.net/manual/en/language.types.string.php) or [Array](http://php.net/manual/en/language.types.array.php) | `error` is used to describe errors or warnings that have happened during the operation |
+| `data` | [NULL](http://php.net/manual/en/language.types.null.php) or [Array](http://php.net/manual/en/language.types.array.php) | `data` should contain the main resource information |
+| `meta` | [NULL](http://php.net/manual/en/language.types.null.php) or [Array](http://php.net/manual/en/language.types.array.php) | `meta` should contain extra resource information, such as other endpoints that can be used with the current resource |
+
+The [ApiResponse helper](src/LangleyFoxall/Helpers/ApiResponse.php) also implements [ArrayAccess](http://php.net/manual/en/class.arrayaccess.php) which can be used to transform `data` easily. Example usage can be found [here](https://github.com/langleyfoxall/helpers-laravel/issues/11#issuecomment-415787692).
+
+After building up the response, before returning it from a [Controller](https://laravel.com/docs/controllers), you must call [`json`](#json).
+
+
+#### Methods
+
+- `success`
+- `error`
+- `data`
+- `meta`
+- `status`
+- `json`
+
+
+##### `success`
+Create a successful response instance.
+
+###### Example Usage
+None of the parameters are required.
+
+```
+$api_response = ApiResponse::success($data, $meta, $status)
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters | `data`, `meta`, `status` |
+| Returns | [ApiResponse](src/LangleyFoxall/Helpers/ApiResponse.php) |
+
+
+##### `error`
+Create a unsuccessful response instance.
+
+###### Example Usage
+None of the parameters are required.
+
+```
+$api_response = ApiResponse::error($errors, $status)
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters | `error`, `status` |
+| Returns | [ApiResponse](src/LangleyFoxall/Helpers/ApiResponse.php) |
+
+
+##### `data`
+Set the data to be returned in the response.
+
+###### Example Usage
+None of the parameters are required.
+
+```
+$api_response->data($data)
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters | [NULL](http://php.net/manual/en/language.types.null.php) or [Array](http://php.net/manual/en/language.types.array.php) |
+| Returns | [ApiResponse](src/LangleyFoxall/Helpers/ApiResponse.php) |
+
+
+##### `meta`
+Set the meta to be returned in the response.
+
+###### Example Usage
+None of the parameters are required.
+
+```
+$api_response->meta($meta)
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters | [NULL](http://php.net/manual/en/language.types.null.php) or [Array](http://php.net/manual/en/language.types.array.php) |
+| Returns | [ApiResponse](src/LangleyFoxall/Helpers/ApiResponse.php) |
+
+
+##### `status`
+Set the response status code.
+
+###### Example Usage
+
+```
+$api_response->status($status)
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters | [Integer](http://php.net/manual/en/language.types.integer.php) |
+| Returns | [ApiResponse](src/LangleyFoxall/Helpers/ApiResponse.php) |
+
+
+##### `json`
+Get the JSON response object
+
+###### Example Usage
+
+```
+$json_response = $api_response->json()
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters | None |
+| Returns | [JsonResponse](https://laravel.com/api/5.6/Illuminate/Http/JsonResponse.html) |
+
+---
 
 ### `Response`
