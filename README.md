@@ -66,7 +66,7 @@ $collection_of_encoded_users = Models::utf8EncodeModels($users)
 
 
 ##### `getColumns`
-Get an [Array](http://php.net/manual/en/language.types.array.php) the database columns for a given model.
+Get an [Array](http://php.net/manual/en/language.types.array.php) of the database columns for a given model.
 
 ###### Example Usage
 ```
