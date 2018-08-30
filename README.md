@@ -23,6 +23,11 @@ All methods can be called statically.
 ##### `all`
 Get a [Collection](https://laravel.com/docs/5.6/collections) of all models.
 
+###### Example Usage
+```
+$collection_of_models = Models::all()
+```
+
 | Key | Details |
 | --- | ------- |
 | Parameters | None |
