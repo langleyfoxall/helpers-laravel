@@ -8,7 +8,7 @@ A repository of laravel specific helper classes to help standardise work. API he
 
 
 ### `Models`
-The [Models helper](src/LangleyFoxall/Helpers/Models.php) offers helpful functions to do with Eloquent Models.
+The [Models helper](src/LangleyFoxall/Helpers/Models.php) offers helpful functions to do with [Eloquent Models](https://laravel.com/docs/eloquent).
 
 #### Methods
 All methods can be called statically.
@@ -237,3 +237,27 @@ $json_response = $api_response->json()
 ---
 
 ### `Response`
+The [Response helper](src/LangleyFoxall/Helpers/Response.php) should only be used if, for whatever reason, API endpoints use the same [Controller](https://laravel.com/docs/controllers) methods as web URIs. This helper will check to see if the request is [expecting JSON](https://laravel.com/api/5.6/Illuminate/Http/Request.html#method_expectsJson) or not and return the right response.
+
+| Key | Type | Description |
+| --- | ---- | ----------- |
+| `request` | [Request](https://laravel.com/api/5.6/Illuminate/Http/Request.html) | `request` is used when it comes to deciding which response to return to the client | 
+| `type` | [String](http://php.net/manual/en/language.types.string.php) | `type` is a string, "success" or "error", which will determine which [API Response](src/LangleyFoxall/Helpers/ApiResponse.php) is returned |
+| `message` | [NULL](http://php.net/manual/en/language.types.null.php), [String](http://php.net/manual/en/language.types.string.php) or [String](http://php.net/manual/en/language.types.string.php) | `message` is used for a [redirect back](https://laravel.com/docs/helpers#method-back) with a [session variable](https://laravel.com/docs/helpers#method-session) (web) or an error message (API) |
+| `data` | [NULL](http://php.net/manual/en/language.types.null.php) or [Array](http://php.net/manual/en/language.types.array.php) | `data` should contain t tlanhe main resource information |
+| `meta` | [NULL](http://php.net/manual/en/language.types.null.php) or [Array](http://php.net/manual/en/language.types.array.php) | `meta` should contain extra resource information, such as other endpoints that can be used with the current resource |
+| `status` | [Integer](http://php.net/manual/en/language.types.integer.php) | `status` is used for accessibility when the response cannot access the HTTP client, such as axios |
+| `uri` | [String](http://php.net/manual/en/language.types.string.php) | `uri` is used when wanting to [redirect](https://laravel.com/docs/helpers#method-redirect) rather than [back](https://laravel.com/docs/helpers#method-back) with a web response |
+
+#### Methods
+None of the following methods can be called statically. When instansiating a new instance of Response a [Request](https://laravel.com/api/5.6/Illuminate/Http/Request.html) object is required.
+
+- `success`
+- `error`
+- `type`
+- `message`
+- `data`
+- `meta`
+- `status`
+- `redirect`
+- `end`
