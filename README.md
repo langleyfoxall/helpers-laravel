@@ -14,10 +14,10 @@ The [Models helper](src/LangleyFoxall/Helpers/Models.php) offers helpful functio
 All methods can be called statically.
 
 - [`all`](#all)
-- [`utf8EncodeModel`](#utf8-encode-model)
-- [`getColumns`](#get-columns)
-- [`getNextId`](#get-next-id)
-- [`areRelated`](#are-related)
+- [`utf8EncodeModel`](#utf8encodemodel)
+- [`getColumns`](#getcolumns)
+- [`getNextId`](#getnextid)
+- [`areRelated`](#arerelated)
 
 
 ##### `all`
