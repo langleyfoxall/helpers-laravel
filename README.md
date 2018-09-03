@@ -252,12 +252,148 @@ The [Response helper](src/LangleyFoxall/Helpers/Response.php) should only be use
 #### Methods
 None of the following methods can be called statically. When instansiating a new instance of Response a [Request](https://laravel.com/api/5.6/Illuminate/Http/Request.html) object is required.
 
-- `success`
-- `error`
-- `type`
-- `message`
-- `data`
-- `meta`
-- `status`
-- `redirect`
-- `end`
+- [`success`](#success-2)
+- [`error`](#error-2)
+- [`type`](#type)
+- [`message`](#type)
+- [`data`](#data-2)
+- [`meta`](#meta-2)
+- [`status`](#status-2)
+- [`redirect`](#redirect)
+- [`end`](#end)
+
+
+##### `success`
+Create a successful response.
+
+###### Example Usage
+None of the parameters are required.
+
+```
+$response = (new Response($request)->success($message, $data, $meta, $status)
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters | `message`, `data`, `meta`, `status` |
+| Returns | [Response](src/LangleyFoxall/Helpers/Response.php) |
+
+
+##### `error`
+Create a unsuccessful response.
+
+###### Example Usage
+None of the parameters are required.
+
+```
+$response = (new Response($request)->success($message, $status)
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters | `message`, `status` |
+| Returns | [Response](src/LangleyFoxall/Helpers/Response.php) |
+
+
+##### `type`
+Set the response type. While error and success are not aggressively checked the type will default to success if not error.
+
+###### Example Usage
+```
+$response = (new Response($request)->success($type)
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters | `type` |
+| Returns | [Response](src/LangleyFoxall/Helpers/Response.php) |
+
+
+##### `message`
+Set the message to be displayed if an error occurs or a [back](https://laravel.com/docs/helpers#method-back) is triggered.
+
+###### Example Usage
+```
+$response = (new Response($request)->message($message)
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters | `message` |
+| Returns | [Response](src/LangleyFoxall/Helpers/Response.php) |
+
+
+##### `data`
+Set the data to be returned in an successful [ApiResponse](src/LangleyFoxall/Helpers/ApiResponse.php).
+
+###### Example Usage
+None of the parameters are required.
+
+```
+$response = (new Response($request)->data($data)
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters | `data` |
+| Returns | [Response](src/LangleyFoxall/Helpers/Response.php) |
+
+
+##### `meta`
+Set the meta to be returned in an successful [ApiResponse](src/LangleyFoxall/Helpers/ApiResponse.php).
+
+###### Example Usage
+None of the parameters are required.
+
+```
+$response = (new Response($request)->meta($meta)
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters | `meta` |
+| Returns | [Response](src/LangleyFoxall/Helpers/Response.php) |
+
+
+##### `status`
+Set the status to be returned in an [ApiResponse](src/LangleyFoxall/Helpers/ApiResponse.php). This will be overwritten if called before `success` or `error`.
+
+###### Example Usage
+```
+$response = (new Response($request)->status($status)
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters | `status` |
+| Returns | [Response](src/LangleyFoxall/Helpers/Response.php) |
+
+
+##### `redirect`
+Set the [redirect](https://laravel.com/docs/helpers#method-redirect) URI to be called rather than redirecting [back](https://laravel.com/docs/helpers#method-back).
+
+###### Example Usage
+None of the parameters are required.
+
+```
+$response = (new Response($request)->redirect($uri)
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters | `uri` |
+| Returns | [Response](src/LangleyFoxall/Helpers/Response.php) |
+
+
+##### `end`
+Return the expected response.
+
+###### Example Usage
+```
+$expected_response = (new Response($request)->end()
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters | None |
+| Returns | [RedirectResponse](https://laravel.com/api/5.6/Illuminate/Http/RedirectResponse.html) or [JsonResponse](https://laravel.com/api/5.6/Illuminate/Http/JsonResponse.html) |
