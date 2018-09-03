@@ -61,6 +61,7 @@ class Response
 	 */
 	public function error($message = null, int $status = 400)
 	{
+		$this->type    = 'error';
 		$this->message = $message;
 		$this->status  = $status;
 
@@ -122,7 +123,7 @@ class Response
 	 * @param string $uri
 	 * @return $this
 	 */
-	public function redirect(string $uri)
+	public function redirect(string $uri = null)
 	{
 		$this->uri = $uri;
 
