@@ -123,7 +123,7 @@ class Response
 	 * @param string $uri
 	 * @return $this
 	 */
-	public function redirect(string $uri)
+	public function redirect(string $uri = null)
 	{
 		$this->uri = $uri;
 
