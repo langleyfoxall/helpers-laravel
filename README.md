@@ -252,13 +252,13 @@ The [Response helper](src/LangleyFoxall/Helpers/Response.php) should only be use
 #### Methods
 None of the following methods can be called statically. When instansiating a new instance of Response a [Request](https://laravel.com/api/5.6/Illuminate/Http/Request.html) object is required.
 
-- [`success`](#success-2)
-- [`error`](#error-2)
+- [`success`](#success-1)
+- [`error`](#error-1)
 - [`type`](#type)
 - [`message`](#type)
-- [`data`](#data-2)
-- [`meta`](#meta-2)
-- [`status`](#status-2)
+- [`data`](#data-1)
+- [`meta`](#meta-1)
+- [`status`](#status-1)
 - [`redirect`](#redirect)
 - [`end`](#end)
 
