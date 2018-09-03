@@ -3,6 +3,7 @@ A repository of laravel specific helper classes to help standardise work. API he
 
 ## Helpers
 - [`Models`](#models)
+- [`IsRelatedTo`](#isrelatedto)
 - [`ApiResponse`](#apiresponse)
 - [`Response`](#response)
 
@@ -113,6 +114,31 @@ $related = Models::areRelated($user, $post, [$comment, 'comments'])
 | Throws| [Exception](http://php.net/manual/en/class.exception.php) or [InvalidArgumentException](http://php.net/manual/en/class.invalidargumentexception.php) |
 | Returns | [Boolean](http://php.net/manual/en/language.types.boolean.php) |
 
+---
+
+### `IsRelatedTo`
+The [IsRelatedTo helper](src/LangleyFoxall/Helpers/Traits/IsRelatedTo.php) is a trait that allows quick and easy access to the [`areRelated`](#arerelatedto) method in the [Models helper](src/LangleyFoxall/Helpers/Models.php).
+
+#### Methods
+
+- [`isRelatedTo`](#isrelatedto-1)
+
+##### `isRelatedTo`
+Check if a single model is related to the parent model.
+
+###### Example usage
+```
+class User extends Model {
+    use IsRelatedTo;
+}
+
+$related = $user->isRelatedTo($post)
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters | [Model](https://laravel.com/docs/eloquent) or [Array](http://php.net/manual/en/language.types.array.php) |
+| Returns | [Boolean](http://php.net/manual/en/language.types.boolean.php) |
 ---
 
 ### `ApiResponse`
