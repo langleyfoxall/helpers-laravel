@@ -1,4 +1,8 @@
 # Helpers Laravel
+
+[![Packagist](https://img.shields.io/packagist/dt/langleyfoxall/helpers-laravel.svg)](https://packagist.org/packages/langleyfoxall/helpers-laravel/stats)
+
+
 A repository of laravel specific helper classes to help standardise work. API helpers, converters etc.
 
 ## Helpers
