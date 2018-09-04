@@ -121,7 +121,7 @@ $related = Models::areRelated($user, $post, [$comment, 'comments'])
 ---
 
 ### `IsRelatedTo`
-The [IsRelatedTo helper](src/LangleyFoxall/Helpers/Traits/IsRelatedTo.php) is a trait that allows quick and easy access to the [`areRelated`](#arerelatedto) method in the [Models helper](src/LangleyFoxall/Helpers/Models.php).
+The [IsRelatedTo helper](src/LangleyFoxall/Helpers/Traits/IsRelatedTo.php) is a trait that allows quick and easy access to the [`areRelated`](#arerelated) method in the [Models helper](src/LangleyFoxall/Helpers/Models.php).
 
 #### Methods
 
