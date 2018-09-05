@@ -2,8 +2,17 @@
 
 [![Packagist](https://img.shields.io/packagist/dt/langleyfoxall/helpers-laravel.svg)](https://packagist.org/packages/langleyfoxall/helpers-laravel/stats)
 
+A repository of Laravel specific helper classes to help standardise work. API helpers, converters etc.
 
-A repository of laravel specific helper classes to help standardise work. API helpers, converters etc.
+## Installation
+
+The Langley Foxall Helpers Laravel package can be easily installed using Composer. Just run the following command from the root of your project.
+
+```bash
+composer require langleyfoxall/helpers-laravel
+```
+
+If you have never used the Composer dependency manager before, head to the [Composer website](https://getcomposer.org/) for more information on how to get started.
 
 ## Helpers
 - [`Models`](#models)
