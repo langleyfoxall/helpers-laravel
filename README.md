@@ -127,6 +127,29 @@ $related = Models::areRelated($user, $post, [$comment, 'comments'])
 | Throws| [Exception](http://php.net/manual/en/class.exception.php) or [InvalidArgumentException](http://php.net/manual/en/class.invalidargumentexception.php) |
 | Returns | [Boolean](http://php.net/manual/en/language.types.boolean.php) |
 
+##### `randomByWeightedValue`
+Takes a collection of `Model`'s and returns one based upon a weighted column. It can also take a maxCap to simulate higher odds.
+
+It should be noted when passing a `maxCap` you should pass in a desired return value if none of the items in the models list were hit.
+
+###### Example Usage
+```
+$prizes = Prizes::all();
+$selectedPrize = Models::randomByWeightedValue($models, 'chance');
+```
+
+```
+//returns a prize as if the 'chance' column related to {$chance}/10,000,000 - if none are hit it will return null.
+$selectedPrize = Models::randomByWeightedValue('App\Models\Prize', 'chance', 10000000, null);
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters | A [Collection](https://laravel.com/docs/collections) of [Models](https://laravel.com/docs/eloquent) or a string representation of a [Model](https://laravel.com/docs/eloquent), `column`, `maxCap` = null, `ifLose` = null |
+| Throws| None |
+| Returns | [Model](https://laravel.com/docs/eloquent) or an `object` |
+
+
 ---
 
 ### `IsRelatedTo`
@@ -153,6 +176,7 @@ $related = $user->isRelatedTo($post)
 | Parameters | [Model](https://laravel.com/docs/eloquent) or [Array](http://php.net/manual/en/language.types.array.php) |
 | Returns | [Boolean](http://php.net/manual/en/language.types.boolean.php) |
 ---
+
 
 ### `ApiResponse`
 The [ApiResponse helper](src/LangleyFoxall/Helpers/ApiResponse.php) standardizes an API response. Always containing the same fields:
