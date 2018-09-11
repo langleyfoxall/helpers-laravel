@@ -32,6 +32,7 @@ All methods can be called statically.
 - [`getColumns`](#getcolumns)
 - [`getNextId`](#getnextid)
 - [`areRelated`](#arerelated)
+- [`randomByWeightedValue`](#randombyweightedvalue)
 
 
 ##### `all`
