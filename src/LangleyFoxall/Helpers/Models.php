@@ -190,23 +190,19 @@ abstract class Models
             $models = $models::whereNotNull($column)->get();
         }
 
-        $indexToWeightArray = [];
+        $total = $models->pluck($column)->sum();
 
-        foreach ($models as $index => $weightedBucket) {
-            $indexToWeightArray[$index] = $weightedBucket->$column;
-        }
-
-        $rand = mt_rand(1, $maxCap ?: (int)array_sum($indexToWeightArray));
-
+        $rand = mt_rand(1, $maxCap ?: $total);
         $modelIndex = null;
-        foreach ($indexToWeightArray as $index => $value) {
-            $rand -= $value;
+
+        foreach ($models as $index => $model) {
+            $rand -= $model->$column;
+
             if ($rand <= 0) {
-                $modelIndex = $index;
-                break;
+                return $model;
             }
         }
 
-	    return $models[$modelIndex] ?? $ifLose;
+	return $ifLose;
     }
 }
