@@ -176,4 +176,37 @@ abstract class Models
 			return false;
 		}
 	}
+
+    /**
+     * @param Collection|String $models Either a collection of Model's or a String representation of a Model.
+     * @param String $column
+     * @param int $maxCap Enter this is the weights are odds (Eg: Weight = 1, $maxCap = 1000 for one in a thousand.)
+     * @param object $ifLose If you've entered a maxCap, set what gets returned if nothing gets hit.
+     * @return Model $model
+     */
+    public static function randomByWeightedValue($models, $column, $maxCap = null, $ifLose = null) {
+        //If model string is passed in, get all model instances.
+        if (is_string($models)) {
+            $models = $models::whereNotNull($column)->get();
+        }
+
+        $indexToWeightArray = [];
+
+        foreach ($models as $index => $weightedBucket) {
+            $indexToWeightArray[$index] = $weightedBucket->$column;
+        }
+
+        $rand = mt_rand(1, $maxCap ?: (int)array_sum($indexToWeightArray));
+
+        $modelIndex = null;
+        foreach ($indexToWeightArray as $index => $value) {
+            $rand -= $value;
+            if ($rand <= 0) {
+                $modelIndex = $index;
+                break;
+            }
+        }
+
+	    return $models[$modelIndex] ?? $ifLose;
+    }
 }
