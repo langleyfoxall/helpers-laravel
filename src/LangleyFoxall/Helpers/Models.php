@@ -184,25 +184,24 @@ abstract class Models
      * @param object $ifLose If you've entered a maxCap, set what gets returned if nothing gets hit.
      * @return Model $model
      */
-    public static function randomByWeightedValue($models, $column, $maxCap = null, $ifLose = null) {
+    public static function randomByWeightedValue($models, $column, $maxCap = null, $ifLose = null)
+    {
         //If model string is passed in, get all model instances.
         if (is_string($models)) {
             $models = $models::whereNotNull($column)->get();
         }
 
         $total = $models->pluck($column)->sum();
-
-        $rand = mt_rand(1, $maxCap ?: $total);
-        $modelIndex = null;
+        $rand  = mt_rand(1, $maxCap ?: $total);
 
         foreach ($models as $index => $model) {
             $rand -= $model->$column;
 
             if ($rand <= 0) {
-                return $model;
+                return [ $model, $index ];
             }
         }
 
-	return $ifLose;
+	return [ $ifLose, null ];
     }
 }
