@@ -572,7 +572,7 @@ $cache->clear();
 
 #### Usage with ApiResponse
 
-A cache can be created from an`ApiResponse` automatically by using the`cache` function on it. It will only cache when the data being returned is not cached data. [See documentation here](#cache).
+A cache can be created from an`ApiResponse` automatically by using the`cache` function on it. It will only cache does not contain data. [See documentation here](#cache).
 
 ###### Example Usage
 ```
