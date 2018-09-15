@@ -490,11 +490,11 @@ The `ResponseCache` helper simplifies caching API Responses taking into account 
 #### Methods
 None of the following methods can be called statically.
 
-- [`hasData`](#hasdata-1)
-- [`getData`](#getdata-1)
-- [`cacheData`](#cachedata-1)
-- [`getKey`](#getkey-1)
-- [`clear`](#clear-1)
+- [`hasData`](#hasData)
+- [`getData`](#getData)
+- [`cacheData`](#cacheData)
+- [`getKey`](#getKey)
+- [`clear`](#clear)
 
 
 ##### `hasData `
