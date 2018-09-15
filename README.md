@@ -19,6 +19,7 @@ If you have never used the Composer dependency manager before, head to the [Comp
 - [`IsRelatedTo`](#isrelatedto)
 - [`ApiResponse`](#apiresponse)
 - [`Response`](#response)
+- [`ResponseCache`](#responsecache)
 
 
 ### `Models`
@@ -203,6 +204,7 @@ After building up the response, before returning it from a [Controller](https://
 - [`meta`](#meta)
 - [`status`](#status)
 - [`json`](#json)
+- [`cache`](#cache)
 
 
 ##### `success`
@@ -570,7 +572,7 @@ $cache->clear();
 
 #### Usage with ApiResponse
 
-A cache can be created from an`ApiResponse` automatically by using the`cache` function on it. It will only cache when the data being returned is not cached data. See documentation here.
+A cache can be created from an`ApiResponse` automatically by using the`cache` function on it. It will only cache when the data being returned is not cached data. [See documentation here](#cache).
 
 ###### Example Usage
 ```
