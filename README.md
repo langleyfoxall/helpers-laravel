@@ -298,6 +298,21 @@ $json_response = $api_response->json()
 | Parameters | None |
 | Returns | [JsonResponse](https://laravel.com/api/5.6/Illuminate/Http/JsonResponse.html) |
 
+##### `cache`
+Cache the current `ApiResponse` data for use in a later request. By default if the cache currently has data in it the data will not be overwritten. Using `forceOverwrite` it can be overwritten, this defaults to false.
+
+###### Example Usage
+`lifspan` accepts an [Integer](http://php.net/manual/en/language.types.integer.php) value for the lifespan in minutes or a [Carbon](https://carbon.nesbot.com/docs/) time when the cache will be cleared. `cache` must be an instansiated [ResponseCache](src/LangleyFoxall/Helpers/ResponseCache.php).
+
+```
+ApiResponse::success($data)->cache(1, $cache)->json();
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters | `lifespan`, `cache`, `forceOverwrite` *(Optional)* |
+| Returns | [ApiResponse](src/LangleyFoxall/Helpers/ApiResponse.php) |
+
 ---
 
 ### `Response`
@@ -308,7 +323,7 @@ The [Response helper](src/LangleyFoxall/Helpers/Response.php) should only be use
 | `request` | [Request](https://laravel.com/api/5.6/Illuminate/Http/Request.html) | `request` is used when it comes to deciding which response to return to the client | 
 | `type` | [String](http://php.net/manual/en/language.types.string.php) | `type` is a string, "success" or "error", which will determine which [API Response](src/LangleyFoxall/Helpers/ApiResponse.php) is returned |
 | `message` | [NULL](http://php.net/manual/en/language.types.null.php), [String](http://php.net/manual/en/language.types.string.php) or [String](http://php.net/manual/en/language.types.string.php) | `message` is used for a [redirect back](https://laravel.com/docs/helpers#method-back) with a [session variable](https://laravel.com/docs/helpers#method-session) (web) or an error message (API) |
-| `data` | [NULL](http://php.net/manual/en/language.types.null.php) or [Array](http://php.net/manual/en/language.types.array.php) | `data` should contain t tlanhe main resource information |
+| `data` | [NULL](http://php.net/manual/en/language.types.null.php) or [Array](http://php.net/manual/en/language.types.array.php) | `data` should contain the main resource information |
 | `meta` | [NULL](http://php.net/manual/en/language.types.null.php) or [Array](http://php.net/manual/en/language.types.array.php) | `meta` should contain extra resource information, such as other endpoints that can be used with the current resource |
 | `status` | [Integer](http://php.net/manual/en/language.types.integer.php) | `status` is used for accessibility when the response cannot access the HTTP client, such as axios |
 | `uri` | [String](http://php.net/manual/en/language.types.string.php) | `uri` is used when wanting to [redirect](https://laravel.com/docs/helpers#method-redirect) rather than [back](https://laravel.com/docs/helpers#method-back) with a web response |
@@ -461,3 +476,111 @@ $expected_response = (new Response($request)->end()
 | --- | ------- |
 | Parameters | None |
 | Returns | [RedirectResponse](https://laravel.com/api/5.6/Illuminate/Http/RedirectResponse.html) or [JsonResponse](https://laravel.com/api/5.6/Illuminate/Http/JsonResponse.html) |
+
+---
+
+### `ResponseCache`
+The `ResponseCache` helper simplifies caching API Responses taking into account differing request parameters and user accounts. Unique caches are generated based on the request route, method, parameters and user.
+
+| Key | Type | Description |
+| --- | ---- | ----------- |
+| `userSpecific` | [Boolean](http://php.net/manual/en/language.types.boolean.php) | `userSpecific` specifies if the response is cached for individual users or if all users share one cache. **Important:** Misuse of `userSpecific` can lead to massive inefficiencies and security flaws. If a response is the same for any user `userSpecific` should be set to false so that a new cache is not created for every user. If a response contains data pertaining to that user `userSpecific` should be set to true so that users do not receive someone else's cached data. |
+| `excludeParams` | *(Optional)* [NULL](http://php.net/manual/en/language.types.null.php) or [Array](http://php.net/manual/en/language.types.array.php) | Since request parameters are likely to change the data generated a seperate cache is generated for different sets of parameters so that the correct data is returned. However some parameters do not change the data generated so a new cache does not need to be generated when they change. Adding these parameters to `excludeParams` will mean that they are ignored. |
+
+#### Methods
+None of the following methods can be called statically.
+
+- [`hasData`](#hasdata-1)
+- [`getData`](#getdata-1)
+- [`cacheData`](#cachedata-1)
+- [`getKey`](#getkey-1)
+- [`clear`](#clear-1)
+
+
+##### `hasData `
+Returns if the current cache has any data.
+
+###### Example Usage
+
+```
+if($cache->hasData()){...
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters | None |
+| Returns | [Boolean](http://php.net/manual/en/language.types.boolean.php) |
+
+##### `getData `
+Returns the data currently in the cache, returns `null` if empty.
+
+###### Example Usage
+
+```
+$data = $cache->getData();
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters | None |
+| Returns | Mixed |
+
+##### `cacheData `
+Saves data to the cache. Any data currently in the cache will be overwritten/
+
+###### Example Usage
+`data` can be any serializable data, `lifespan` can be minutes as an [Integer](http://php.net/manual/en/language.types.integer.php) or a [Carbon](https://carbon.nesbot.com/docs/) time that the cache will expire at.
+
+```
+$cache->cacheData(["Hello" => "World"], Carbon:now()->addSeconds(4404));
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters |`data`, `lifespan` |
+| Returns | None |
+
+##### `getKey `
+Returns the unique key for the cache generated based on the request path, method, parameters and user.
+
+###### Example Usage
+
+```
+$key = $cache->getKey();
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters | None |
+| Returns | [String](http://php.net/manual/en/language.types.string.php) |
+
+##### `clear `
+Clears the data for the given cache.
+
+###### Example Usage
+
+```
+$cache->clear();
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters | None |
+| Returns | None |
+
+#### Usage with ApiResponse
+
+A cache can be created from an`ApiResponse` automatically by using the`cache` function on it. It will only cache when the data being returned is not cached data. See documentation here.
+
+###### Example Usage
+```
+$cache = new ResponseCache(false);
+
+if($cache->hasData()){
+    $data = $cache->getData();
+}else{
+    $data = computationallyExpensiveFunction();
+}
+
+return ApiResponse::success($data)->cache(1, $cache)->json();
+```

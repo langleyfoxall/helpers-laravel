@@ -152,8 +152,8 @@ class ApiResponse implements \ArrayAccess
      * @param ResponseCache $cache
      * @return $this
      */
-	public function cache($lifespan, ResponseCache $cache){
-        if(!$cache->hasData()){
+    public function cache($lifespan, ResponseCache $cache, $forceOverwrite = false){
+        if(!$cache->hasData() || $forceOverwrite){
             $cache->cacheData($this->data, $lifespan);
         }
         return $this;
