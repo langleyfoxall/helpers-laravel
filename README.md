@@ -301,7 +301,7 @@ $json_response = $api_response->json()
 | Returns | [JsonResponse](https://laravel.com/api/5.6/Illuminate/Http/JsonResponse.html) |
 
 ##### `cache`
-Cache the current `ApiResponse` data for use in a later request. By default if the cache currently has data in it the data will not be overwritten. Using `forceOverwrite` it can be overwritten, this defaults to false.
+Cache the current `ApiResponse` data for use in a later request. By default if the cache currently has data in it the data will not be overwritten. Using `forceOverwrite` it can be overwritten, this defaults to false. `cache` must be called after `data` is set. 
 
 ###### Example Usage
 `lifspan` accepts an [Integer](http://php.net/manual/en/language.types.integer.php) value for the lifespan in minutes or a [Carbon](https://carbon.nesbot.com/docs/) time when the cache will be cleared. `cache` must be an instansiated [ResponseCache](src/LangleyFoxall/Helpers/ResponseCache.php).
