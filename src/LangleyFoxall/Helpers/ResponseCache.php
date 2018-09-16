@@ -3,7 +3,7 @@
 namespace LangleyFoxall\Helpers;
 
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 
 class ResponseCache
@@ -16,30 +16,32 @@ class ResponseCache
 
     /**
      * ResponseCache constructor.
+     * @param Request $request
      * @param bool $userSpecific
      * @param array $excludeParams
      */
-    public function __construct(bool $userSpecific, $excludeParams = [])
+    public function __construct(Request $request, bool $userSpecific, $excludeParams = [])
     {
-        $this->key = self::hashRequest($userSpecific, $excludeParams);
+        $this->key = self::hashRequest($request, $userSpecific, $excludeParams);
     }
 
     /**
+     * @param Request $request
      * @param bool $userSpecific
      * @param array $excludeParams
      * @return string
      */
-    private static function hashRequest(bool $userSpecific, $excludeParams = []){
-        $user = Request::user();
+    private static function hashRequest(Request $request, bool $userSpecific, $excludeParams = []){
+        $user = $request->user();
 
         $data = [
-            Request::path(),
-            Request::method(),
-            Request::except($excludeParams),
+            $request->path(),
+            $request->method(),
+            $request->except($excludeParams),
             $userSpecific ? isset($user) ? $user[$user->getKeyName()] : null : null
         ];
 
-        return md5(serialize($data));
+        return sha1(serialize($data));
     }
 
     /**

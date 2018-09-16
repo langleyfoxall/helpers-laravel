@@ -304,7 +304,7 @@ $json_response = $api_response->json()
 Cache the current `ApiResponse` data for use in a later request. By default if the cache currently has data in it the data will not be overwritten. Using `forceOverwrite` it can be overwritten, this defaults to false. `cache` must be called after `data` is set. 
 
 ###### Example Usage
-`lifspan` accepts an [Integer](http://php.net/manual/en/language.types.integer.php) value for the lifespan in minutes or a [Carbon](https://carbon.nesbot.com/docs/) time when the cache will be cleared. `cache` must be an instansiated [ResponseCache](src/LangleyFoxall/Helpers/ResponseCache.php).
+`lifespan` accepts an [Integer](http://php.net/manual/en/language.types.integer.php) value for the lifespan in minutes or a [Carbon](https://carbon.nesbot.com/docs/) time when the cache will be cleared. `cache` must be an instantiated [ResponseCache](src/LangleyFoxall/Helpers/ResponseCache.php).
 
 ```
 ApiResponse::success($data)->cache(1, $cache)->json();
@@ -486,6 +486,7 @@ The `ResponseCache` helper simplifies caching API Responses taking into account 
 
 | Key | Type | Description |
 | --- | ---- | ----------- |
+| `request` | [Request](https://laravel.com/api/5.6/Illuminate/Http/Request.html) | The request that the cache will be for. |
 | `userSpecific` | [Boolean](http://php.net/manual/en/language.types.boolean.php) | `userSpecific` specifies if the response is cached for individual users or if all users share one cache. **Important:** Misuse of `userSpecific` can lead to massive inefficiencies and security flaws. If a response is the same for any user `userSpecific` should be set to false so that a new cache is not created for every user. If a response contains data pertaining to that user `userSpecific` should be set to true so that users do not receive someone else's cached data. |
 | `excludeParams` | *(Optional)* [NULL](http://php.net/manual/en/language.types.null.php) or [Array](http://php.net/manual/en/language.types.array.php) | Since request parameters are likely to change the data generated a seperate cache is generated for different sets of parameters so that the correct data is returned. However some parameters do not change the data generated so a new cache does not need to be generated when they change. Adding these parameters to `excludeParams` will mean that they are ignored. |
 
@@ -576,7 +577,7 @@ A cache can be created from an`ApiResponse` automatically by using the `cache` f
 
 ###### Example Usage
 ```
-$cache = new ResponseCache(false);
+$cache = new ResponseCache($request, false);
 
 if($cache->hasData()){
     $data = $cache->getData();
