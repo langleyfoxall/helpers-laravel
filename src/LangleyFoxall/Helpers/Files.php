@@ -19,7 +19,7 @@ class Files
         $patterns = is_array($pattern) ? $pattern : [$pattern];
 
         return collect(glob($dir))->filter(function ($file) use ($patterns) {
-            foreach($patterns as $pattern) {
+            foreach ($patterns as $pattern) {
                 if (!!preg_match($pattern, $file)) {
                     return true;
                 }
