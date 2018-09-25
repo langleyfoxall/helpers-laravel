@@ -12,11 +12,11 @@ class Files
 	 */
     public static function filter($pattern, string $dir)
 	{
-		if (!ends_with($dir, '/*')) {
-			$dir = $dir . '/*';
-		}
+        if (!ends_with($dir, '/*')) {
+            $dir = $dir . '/*';
+        }
 
-		$patterns = is_array($pattern) ? $pattern : [$pattern];
+        $patterns = is_array($pattern) ? $pattern : [$pattern];
 
         return collect(glob($dir))->filter(function ($file) use ($patterns) {
             foreach($patterns as $pattern) {
