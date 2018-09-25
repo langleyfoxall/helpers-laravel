@@ -11,7 +11,7 @@ class Files
 	 * @return array
 	 */
     public static function filter($pattern, string $dir)
-	{
+    {
         if (!ends_with($dir, '/*')) {
             $dir = $dir . '/*';
         }
@@ -27,5 +27,5 @@ class Files
 
             return false;
         });
-	}
+    }
 }
