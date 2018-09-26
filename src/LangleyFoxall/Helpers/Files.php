@@ -20,9 +20,7 @@ class Files
 
         return collect(glob($dir))->filter(function ($file) use ($patterns) {
             foreach ($patterns as $pattern) {
-                if (!!preg_match($pattern, $file)) {
-                    return true;
-                }
+		    return !!preg_match($pattern, $file);
             }
 
             return false;
