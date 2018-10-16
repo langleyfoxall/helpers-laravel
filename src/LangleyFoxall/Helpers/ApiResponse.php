@@ -146,4 +146,16 @@ class ApiResponse implements \ArrayAccess
 	{
 		unset($this->data[ $offset ]);
 	}
+	
+    /**
+     * @param $lifespan
+     * @param ResponseCache $cache
+     * @return $this
+     */
+    public function cache($lifespan, ResponseCache $cache, $forceOverwrite = false){
+        if(!$cache->hasData() || $forceOverwrite){
+            $cache->cacheData($this->data, $lifespan);
+        }
+        return $this;
+    }
 }
