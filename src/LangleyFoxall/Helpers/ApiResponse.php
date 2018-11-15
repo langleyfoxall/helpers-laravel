@@ -68,7 +68,7 @@ class ApiResponse implements \ArrayAccess
 		
 		if (is_string($error) && stripos('internal server error', $error) !== false) {
 		    $response->status = $status < 500 ? 500 : $status;
-       		}
+		}
 
 		return $response;
 	}
