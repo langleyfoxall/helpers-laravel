@@ -17,6 +17,7 @@ If you have never used the Composer dependency manager before, head to the [Comp
 ## Helpers
 - [`Models`](#models)
 - [`IsRelatedTo`](#isrelatedto)
+- [`Enum`](#enum)
 - [`ApiResponse`](#apiresponse)
 - [`Response`](#response)
 - [`ResponseCache`](#responsecache)
@@ -185,7 +186,7 @@ The [Enum helper](src/LangleyFoxall/Helpers/Traits/Enum.php) is a trait that pro
 
 #### Methods
 
-- [`all`](#all)
+- [`all`](#all-1)
 - [`valid`](#valid)
 
 ##### `all`
