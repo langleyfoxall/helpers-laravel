@@ -17,6 +17,7 @@ If you have never used the Composer dependency manager before, head to the [Comp
 ## Helpers
 - [`Models`](#models)
 - [`IsRelatedTo`](#isrelatedto)
+- [`Enum`](#enum)
 - [`ApiResponse`](#apiresponse)
 - [`Response`](#response)
 - [`ResponseCache`](#responsecache)
@@ -177,6 +178,75 @@ $related = $user->isRelatedTo($post)
 | --- | ------- |
 | Parameters | [Model](https://laravel.com/docs/eloquent) or [Array](http://php.net/manual/en/language.types.array.php) |
 | Returns | [Boolean](http://php.net/manual/en/language.types.boolean.php) |
+
+---
+
+### `Enum`
+The [Enum helper](src/LangleyFoxall/Helpers/Traits/Enum.php) is a trait that provides helpers for dealing with enum classes.
+
+#### Methods
+
+- [`all`](#all-1)
+- [`valid`](#valid)
+
+##### `all`
+Return an array of all values.
+
+###### Example usage
+```
+class UserType
+{
+    use \LangleyFoxall\Helpers\Traits\Enum;
+
+    const ADMIN = 'admin';
+    const USER = 'user';
+}
+
+class User extends Eloquent
+{
+    public function getValidTypes()
+    {
+        return UserType::all();
+    }
+}
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters ||
+| Returns | [Array](http://php.net/manual/en/language.types.array.php) |
+
+##### `valid`
+Check if a provided value is a valid value of the enum class.
+
+###### Example usage
+```
+class UserType
+{
+    use \LangleyFoxall\Helpers\Traits\Enum;
+
+    const ADMIN = 'admin';
+    const USER = 'user';
+}
+
+class User extends Eloquent
+{
+    public function setTypeAttribute(string $type)
+    {
+        if (!UserType::valid($type)) {
+            throw new InvalidUserType;
+        }
+
+        $this->type = $type;
+    }
+}
+```
+
+| Key | Details |
+| --- | ------- |
+| Parameters | [String](http://php.net/manual/en/language.types.array.php)|
+| Returns | [Boolean](http://php.net/manual/en/language.types.boolean.php) |
+
 ---
 
 
