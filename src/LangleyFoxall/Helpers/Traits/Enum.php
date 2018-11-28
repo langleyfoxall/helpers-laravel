@@ -25,6 +25,7 @@ trait Enum
      * Returns a bool indicating whether or not a value is present in the class.
      *
      * @param string $value
+     *
      * @return bool
      */
     public static function valid(string $value): bool
