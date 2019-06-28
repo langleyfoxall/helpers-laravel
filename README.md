@@ -670,23 +670,18 @@ Change your migrations to allow the use of a UUID.
 public function up()
 {
     Schema::create('demos', function (Blueprint $table) {
-        $table->uuid('uuid')->primary();
+        $table->uuid('id')->primary();
         $table->timestamps();
     });
 }
 ```
 
-Use the trait and specify your primary key name if changed.
+Use the trait.
 
 ```php
 class Demo extends Model
 {
     use IdentifiedByUUID;
-
-    /**
-     * @var string
-     */
-    protected $primaryKey = 'uuid';
 }
 ```
 
