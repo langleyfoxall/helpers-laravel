@@ -658,13 +658,14 @@ if($cache->hasData()){
 return ApiResponse::success($data)->cache(1, $cache)->json();
 ```
 
-
 ### `IdentifiedByUUID`
 
 The `IdentifiedByUUID` trait allows you to easily use V4 UUIDs over incrementing primary keys.
 
 ###### Example Usage
+
 Change your migrations to allow the use of a UUID.
+
 ```php
 public function up()
 {
@@ -674,7 +675,9 @@ public function up()
     });
 }
 ```
+
 Use the trait and specify your primary key name if changed.
+
 ```php
 class Demo extends Model
 {
