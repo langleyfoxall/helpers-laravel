@@ -35,11 +35,17 @@
     "php": "^7.0.0",
     "illuminate/support": ">=5.0",
     "illuminate/database": ">=5.0",
-    "illuminate/http": ">=5.0"
+    "illuminate/http": ">=5.0",
+    "orchestra/testbench": "3.8.x-dev"
   },
   "autoload": {
     "psr-4": {
       "LangleyFoxall\\": "src/LangleyFoxall/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "LangleyFoxall\\": "tests/"
     }
   },
   "extra": {
