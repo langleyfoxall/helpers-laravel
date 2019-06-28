@@ -670,7 +670,7 @@ Change your migrations to allow the use of a UUID.
 public function up()
 {
     Schema::create('demos', function (Blueprint $table) {
-        $table->string('uuid')->primary();
+        $table->uuid('uuid')->primary();
         $table->timestamps();
     });
 }
