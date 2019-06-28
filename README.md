@@ -21,7 +21,7 @@ If you have never used the Composer dependency manager before, head to the [Comp
 - [`ApiResponse`](#apiresponse)
 - [`Response`](#response)
 - [`ResponseCache`](#responsecache)
-
+- [`IdentifiedByUUID`](#identifiedbyuuid)
 
 ### `Models`
 The [Models helper](src/LangleyFoxall/Helpers/Models.php) offers helpful functions to do with [Eloquent Models](https://laravel.com/docs/eloquent).
@@ -657,3 +657,34 @@ if($cache->hasData()){
 
 return ApiResponse::success($data)->cache(1, $cache)->json();
 ```
+
+
+### `IdentifiedByUUID`
+
+The `IdentifiedByUUID` trait allows you to easily use V4 UUIDs over incrementing primary keys.
+
+###### Example Usage
+Change your migrations to allow the use of a UUID.
+```php
+public function up()
+{
+    Schema::create('demos', function (Blueprint $table) {
+        $table->string('uuid')->primary();
+        $table->timestamps();
+    });
+}
+```
+Use the trait and specify your primary key name if changed.
+```php
+class Demo extends Model
+{
+    use IdentifiedByUUID;
+
+    /**
+     * @var string
+     */
+    protected $primaryKey = 'uuid';
+}
+```
+
+Now when the model is saved, it will automatically be populated with a V4 UUID.
