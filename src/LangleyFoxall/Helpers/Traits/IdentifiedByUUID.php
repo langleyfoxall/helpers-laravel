@@ -8,7 +8,8 @@ use Illuminate\Support\Str;
  * Trait IdentifiedByUUID
  * @package LangleyFoxall\Helpers\Traits
  */
-trait IdentifiedByUUID {
+trait IdentifiedByUUID
+{
     /**
      * Boot the trait
      */
