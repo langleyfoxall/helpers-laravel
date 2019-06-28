@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: alex
- * Date: 28/06/2019
- * Time: 10:19
- */
+
 namespace LangleyFoxall\Traits\IdentifiedByUUID;
 
 use LangleyFoxall\Traits\IdentifiedByUUID\Models\Demo;
