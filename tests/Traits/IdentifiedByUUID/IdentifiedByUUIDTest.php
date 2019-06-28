@@ -7,7 +7,6 @@ use Orchestra\Testbench\TestCase;
 
 class IdentifiedByUUIDTest extends TestCase
 {
-
     /**
      * Setup the test
      */
