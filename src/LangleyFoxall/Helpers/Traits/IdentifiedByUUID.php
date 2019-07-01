@@ -5,13 +5,12 @@ namespace LangleyFoxall\Helpers\Traits;
 use Illuminate\Support\Str;
 
 /**
- * Trait IdentifiedByUUID
- * @package LangleyFoxall\Helpers\Traits
+ * Trait IdentifiedByUUID.
  */
 trait IdentifiedByUUID
 {
     /**
-     * Boot the trait
+     * Boot the trait.
      */
     public static function bootIdentifiedByUUID()
     {
