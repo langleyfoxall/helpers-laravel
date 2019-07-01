@@ -8,17 +8,17 @@ use Orchestra\Testbench\TestCase;
 class IdentifiedByUUIDTest extends TestCase
 {
     /**
-     * Setup the test
+     * Setup the test.
      */
     protected function setUp(): void
     {
         parent::setUp();
-        $this->loadMigrationsFrom(__DIR__ . '/Migrations');
+        $this->loadMigrationsFrom(__DIR__.'/Migrations');
         $this->artisan('migrate', ['--database' => 'testing'])->run();
     }
 
     /**
-     * Check that saving a model correctly saves a UUID
+     * Check that saving a model correctly saves a UUID.
      * @return void
      */
     public function testSaveStoresUUID()
@@ -28,7 +28,7 @@ class IdentifiedByUUIDTest extends TestCase
     }
 
     /**
-     * Check that updating the model does not change the UUID
+     * Check that updating the model does not change the UUID.
      */
     public function testUpdateDoesNotChangeUUID()
     {
