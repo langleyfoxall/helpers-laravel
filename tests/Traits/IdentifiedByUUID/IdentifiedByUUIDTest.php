@@ -19,6 +19,7 @@ class IdentifiedByUUIDTest extends TestCase
 
     /**
      * Check that saving a model correctly saves a UUID.
+     *
      * @return void
      */
     public function testSaveStoresUUID()
