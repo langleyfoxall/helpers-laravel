@@ -2,13 +2,11 @@
 
 namespace LangleyFoxall\Helpers;
 
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Cache;
 
 class ResponseCache
 {
-
     /**
      * @var string
      */
@@ -16,9 +14,10 @@ class ResponseCache
 
     /**
      * ResponseCache constructor.
+     *
      * @param Request $request
-     * @param bool $userSpecific
-     * @param array $excludeParams
+     * @param bool    $userSpecific
+     * @param array   $excludeParams
      */
     public function __construct(Request $request, bool $userSpecific, $excludeParams = [])
     {
@@ -27,18 +26,20 @@ class ResponseCache
 
     /**
      * @param Request $request
-     * @param bool $userSpecific
-     * @param array $excludeParams
+     * @param bool    $userSpecific
+     * @param array   $excludeParams
+     *
      * @return string
      */
-    private static function hashRequest(Request $request, bool $userSpecific, $excludeParams = []){
+    private static function hashRequest(Request $request, bool $userSpecific, $excludeParams = [])
+    {
         $user = $request->user();
 
         $data = [
             $request->path(),
             $request->method(),
             $request->except($excludeParams),
-            $userSpecific ? isset($user) ? $user[$user->getKeyName()] : null : null
+            $userSpecific ? isset($user) ? $user[$user->getKeyName()] : null : null,
         ];
 
         return sha1(serialize($data));
@@ -47,14 +48,16 @@ class ResponseCache
     /**
      * @return bool
      */
-    public function hasData(){
+    public function hasData()
+    {
         return Cache::has($this->key);
     }
 
     /**
      * @return mixed
      */
-    public function getData(){
+    public function getData()
+    {
         return unserialize(Cache::get($this->key));
     }
 
@@ -62,21 +65,21 @@ class ResponseCache
      * @param mixed $data
      * @param mixed $lifespan
      */
-    public function cacheData($data, $lifespan){
+    public function cacheData($data, $lifespan)
+    {
         Cache::put($this->key, serialize($data), $lifespan);
     }
 
     /**
      * @return string
      */
-    public function getKey(){
+    public function getKey()
+    {
         return $this->key;
     }
 
-    /**
-     *
-     */
-    public function clear(){
+    public function clear()
+    {
         Cache::forget($this->key);
     }
 }
