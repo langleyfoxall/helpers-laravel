@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 /**
- * Class Models
- * @package LangleyFoxall\Helpers
+ * Class Models.
  */
 abstract class Models
 {
@@ -25,9 +24,9 @@ abstract class Models
 
         exec($command, $files);
 
-        return collect($files)->map(function($file) {
+        return collect($files)->map(function ($file) {
             return self::convertFileToClass($file);
-        })->filter(function($class) {
+        })->filter(function ($class) {
             return class_exists($class) && is_subclass_of($class, Model::class);
         });
     }
@@ -36,6 +35,7 @@ abstract class Models
      * Converts a file name to a namespaced class name.
      *
      * @param string $file
+     *
      * @return string
      */
     private static function convertFileToClass(string $file)
@@ -44,8 +44,7 @@ abstract class Models
 
         $namespace = '';
 
-        while(($line = fgets($fh, 5000)) !== false) {
-
+        while (($line = fgets($fh, 5000)) !== false) {
             if (str_contains($line, 'namespace')) {
                 $namespace = trim(str_replace(['namespace', ';'], '', $line));
                 break;
@@ -63,11 +62,12 @@ abstract class Models
      * UTF-8 encodes the attributes of a model.
      *
      * @param Model $model
+     *
      * @return Model
      */
     public static function utf8EncodeModel(Model $model)
     {
-        foreach($model->toArray() as $key => $value) {
+        foreach ($model->toArray() as $key => $value) {
             if (is_numeric($value) || !is_string($value)) {
                 continue;
             }
@@ -81,19 +81,21 @@ abstract class Models
      * UTF-8 encodes the attributes of a collection of models.
      *
      * @param Collection $models
+     *
      * @return Collection
      */
     public static function utf8EncodeModels(Collection $models)
     {
-        return $models->map(function($model) {
+        return $models->map(function ($model) {
             return self::utf8EncodeModel($model);
         });
     }
 
     /**
-     * Gets an array of the columns in this model's database table
+     * Gets an array of the columns in this model's database table.
      *
      * @param Model $model
+     *
      * @return mixed
      */
     public static function getColumns(Model $model)
@@ -102,11 +104,13 @@ abstract class Models
     }
 
     /**
-     * Gets the next auto-increment id for a model
+     * Gets the next auto-increment id for a model.
      *
      * @param Model $model
-     * @return int
+     *
      * @throws \Exception
+     *
+     * @return int
      */
     public static function getNextId(Model $model)
     {
@@ -119,72 +123,76 @@ abstract class Models
         return (int) $statement[0]->Auto_increment;
     }
 
-	/**
-	 * Check if any number of models are related to each other
-	 *
-	 * @param Model[]|array[] $relations
-	 * @throws \InvalidArgumentException|\Exception
-	 * @return bool
-	 */
-	public static function areRelated(...$relations)
-	{
-		try {
-			$max_key = count($relations) - 1;
+    /**
+     * Check if any number of models are related to each other.
+     *
+     * @param Model[]|array[] $relations
+     *
+     * @throws \InvalidArgumentException|\Exception
+     *
+     * @return bool
+     */
+    public static function areRelated(...$relations)
+    {
+        try {
+            $max_key = count($relations) - 1;
 
-			foreach ($relations as $key => $current) {
-				if (!is_array($current)) {
-					$previous = null;
+            foreach ($relations as $key => $current) {
+                if (!is_array($current)) {
+                    $previous = null;
 
-					if ($key > 0) {
-						$previous = $relations[ $key - 1 ];
-						$previous = is_array($previous)
-							? $previous[ 0 ] : $previous;
-					}
+                    if ($key > 0) {
+                        $previous = $relations[$key - 1];
+                        $previous = is_array($previous)
+                            ? $previous[0] : $previous;
+                    }
 
-					$basename = strtolower(class_basename($current));
-					$method   = Str::plural($basename);
+                    $basename = strtolower(class_basename($current));
+                    $method = Str::plural($basename);
 
-					if (!is_null($previous)) {
-						if (!method_exists($previous, $method)) {
-							$method = Str::singular($basename);
-						}
+                    if (!is_null($previous)) {
+                        if (!method_exists($previous, $method)) {
+                            $method = Str::singular($basename);
+                        }
 
-						if (!method_exists($previous, $method)) {
-							throw new \Exception('UNABLE_TO_FIND_RELATIONSHIP');
-						}
-					}
+                        if (!method_exists($previous, $method)) {
+                            throw new \Exception('UNABLE_TO_FIND_RELATIONSHIP');
+                        }
+                    }
 
-					$relations[ $key ] = [ $current, $method ];
-				}
+                    $relations[$key] = [$current, $method];
+                }
 
-				if (!($relations[ $key ][ 0 ] instanceof Model)) {
-					throw new \InvalidArgumentException('INVALID_MODEL');
-				}
-			}
+                if (!($relations[$key][0] instanceof Model)) {
+                    throw new \InvalidArgumentException('INVALID_MODEL');
+                }
+            }
 
-			foreach ($relations as $key => $current) {
-				if ($key !== $max_key) {
-					$model    = $current[ 0 ];
-					$relation = $relations[ $key + 1 ];
+            foreach ($relations as $key => $current) {
+                if ($key !== $max_key) {
+                    $model = $current[0];
+                    $relation = $relations[$key + 1];
 
-					$model->{$relation[ 1 ]}()->findOrFail($relation[ 0 ]->id);
-				}
-			}
+                    $model->{$relation[1]}()->findOrFail($relation[0]->id);
+                }
+            }
 
-			return true;
-		} catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-			return false;
-		}
-	}
+            return true;
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return false;
+        }
+    }
 
     /**
-     * @param Collection|String $models Either a collection of Model's or a String representation of a Model.
-     * @param String $column
-     * @param int $maxCap Enter this is the weights are odds (Eg: Weight = 1, $maxCap = 1000 for one in a thousand.)
-     * @param object $ifLose If you've entered a maxCap, set what gets returned if nothing gets hit.
+     * @param Collection|string $models Either a collection of Model's or a String representation of a Model.
+     * @param string            $column
+     * @param int               $maxCap Enter this is the weights are odds (Eg: Weight = 1, $maxCap = 1000 for one in a thousand.)
+     * @param object            $ifLose If you've entered a maxCap, set what gets returned if nothing gets hit.
+     *
      * @return Model $model
      */
-    public static function randomByWeightedValue($models, $column, $maxCap = null, $ifLose = null) {
+    public static function randomByWeightedValue($models, $column, $maxCap = null, $ifLose = null)
+    {
         //If model string is passed in, get all model instances.
         if (is_string($models)) {
             $models = $models::whereNotNull($column)->get();
@@ -196,7 +204,7 @@ abstract class Models
             $indexToWeightArray[$index] = $weightedBucket->$column;
         }
 
-        $rand = mt_rand(1, $maxCap ?: (int)array_sum($indexToWeightArray));
+        $rand = mt_rand(1, $maxCap ?: (int) array_sum($indexToWeightArray));
 
         $modelIndex = null;
         foreach ($indexToWeightArray as $index => $value) {
@@ -207,6 +215,6 @@ abstract class Models
             }
         }
 
-	    return $models[$modelIndex] ?? $ifLose;
+        return $models[$modelIndex] ?? $ifLose;
     }
 }

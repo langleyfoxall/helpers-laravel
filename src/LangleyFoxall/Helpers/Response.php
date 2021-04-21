@@ -1,159 +1,166 @@
 <?php
+
 namespace LangleyFoxall\Helpers;
 
 use Illuminate\Http\Request;
 
 class Response
 {
-	/** @var Request $request */
-	private $request;
+    /** @var Request */
+    private $request;
 
-	/** @var string $type */
-	private $type;
+    /** @var string */
+    private $type;
 
-	/** @var string $message */
-	private $message;
+    /** @var string */
+    private $message;
 
-	/** @var array $data */
-	private $data;
+    /** @var array */
+    private $data;
 
-	/** @var array $meta */
-	private $meta;
+    /** @var array */
+    private $meta;
 
-	/** @var int $status */
-	private $status;
+    /** @var int */
+    private $status;
 
-	/** @var string $uri */
-	private $uri;
+    /** @var string */
+    private $uri;
 
-	/**
-	 * Response constructor.
-	 *
-	 * @param Request $request
-	 */
-	public function __construct(Request $request)
-	{
-		$this->request = $request;
-	}
+    /**
+     * Response constructor.
+     *
+     * @param Request $request
+     */
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
 
-	/**
-	 * @param string $message
-	 * @param array  $data
-	 * @param array  $meta
-	 * @param int    $status
-	 * @return $this
-	 */
-	public function success(string $message = null, array $data = null, array $meta = null, int $status = 200)
-	{
-		$this->type    = 'success';
-		$this->message = $message;
-		$this->data    = $data;
-		$this->meta    = $meta;
-		$this->status  = $status;
+    /**
+     * @param string $message
+     * @param array  $data
+     * @param array  $meta
+     * @param int    $status
+     *
+     * @return $this
+     */
+    public function success(string $message = null, array $data = null, array $meta = null, int $status = 200)
+    {
+        $this->type = 'success';
+        $this->message = $message;
+        $this->data = $data;
+        $this->meta = $meta;
+        $this->status = $status;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @param mixed $message
-	 * @param int   $status
-	 * @return $this
-	 */
-	public function error($message = null, int $status = 400)
-	{
-		$this->type    = 'error';
-		$this->message = $message;
-		$this->status  = $status;
+    /**
+     * @param mixed $message
+     * @param int   $status
+     *
+     * @return $this
+     */
+    public function error($message = null, int $status = 400)
+    {
+        $this->type = 'error';
+        $this->message = $message;
+        $this->status = $status;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function type(string $type)
-	{
-		$this->type = $type;
+    public function type(string $type)
+    {
+        $this->type = $type;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @param string $message
-	 * @return $this
-	 */
-	public function message(string $message)
-	{
-		$this->message = $message;
+    /**
+     * @param string $message
+     *
+     * @return $this
+     */
+    public function message(string $message)
+    {
+        $this->message = $message;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @param array $data
-	 * @return $this
-	 */
-	public function data(array $data = null)
-	{
-		$this->data = $data;
+    /**
+     * @param array $data
+     *
+     * @return $this
+     */
+    public function data(array $data = null)
+    {
+        $this->data = $data;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @param array $meta
-	 * @return $this
-	 */
-	public function meta(array $meta = null)
-	{
-		$this->meta = $meta;
+    /**
+     * @param array $meta
+     *
+     * @return $this
+     */
+    public function meta(array $meta = null)
+    {
+        $this->meta = $meta;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @param int $status
-	 * @return $this
-	 */
-	public function status(int $status)
-	{
-		$this->status = $status;
+    /**
+     * @param int $status
+     *
+     * @return $this
+     */
+    public function status(int $status)
+    {
+        $this->status = $status;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @param string $uri
-	 * @return $this
-	 */
-	public function redirect(string $uri = null)
-	{
-		$this->uri = $uri;
+    /**
+     * @param string $uri
+     *
+     * @return $this
+     */
+    public function redirect(string $uri = null)
+    {
+        $this->uri = $uri;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
-	 */
-	public function end()
-	{
-		$type    = $this->type;
-		$message = $this->message;
-		$status  = $this->status;
-		$data    = $this->data;
-		$meta    = $this->meta;
+    /**
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    public function end()
+    {
+        $type = $this->type;
+        $message = $this->message;
+        $status = $this->status;
+        $data = $this->data;
+        $meta = $this->meta;
 
-		if ($this->request->expectsJson()) {
-			if ($type === 'error') {
-				return ApiResponse::error($message, $status)->json();
-			}
+        if ($this->request->expectsJson()) {
+            if ($type === 'error') {
+                return ApiResponse::error($message, $status)->json();
+            }
 
-			return ApiResponse::success($data, $meta, $status)->json();
-		}
+            return ApiResponse::success($data, $meta, $status)->json();
+        }
 
+        if ($this->uri) {
+            return redirect($this->uri);
+        }
 
-		if ($this->uri) {
-			return redirect($this->uri);
-		}
-
-		return back()->with($type, $message);
-	}
+        return back()->with($type, $message);
+    }
 }
