@@ -1,6 +1,6 @@
 <?php
 
-namespace LangleyFoxall\Helpers\Exception;
+namespace LangleyFoxall\Helpers\Exceptions;
 
 class NotRelatedException extends \Exception
 {
