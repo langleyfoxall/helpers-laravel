@@ -45,7 +45,7 @@ class Response
      *
      * @return $this
      */
-    public function success(string $message = null, array $data = null, array $meta = null, int $status = 200)
+    public function success(?string $message = null, ?array $data = null, ?array $meta = null, int $status = 200)
     {
         $this->type = 'success';
         $this->message = $message;
@@ -95,7 +95,7 @@ class Response
      *
      * @return $this
      */
-    public function data(array $data = null)
+    public function data(?array $data = null)
     {
         $this->data = $data;
 
@@ -107,7 +107,7 @@ class Response
      *
      * @return $this
      */
-    public function meta(array $meta = null)
+    public function meta(?array $meta = null)
     {
         $this->meta = $meta;
 
@@ -131,7 +131,7 @@ class Response
      *
      * @return $this
      */
-    public function redirect(string $uri = null)
+    public function redirect(?string $uri = null)
     {
         $this->uri = $uri;
 

@@ -64,6 +64,8 @@ abstract class Models
      * @param Model $model
      *
      * @return Model
+     *
+     * @deprecated This method preserves legacy ISO-8859-1 to UTF-8 conversion behaviour.
      */
     public static function utf8EncodeModel(Model $model)
     {
@@ -71,7 +73,7 @@ abstract class Models
             if (is_numeric($value) || !is_string($value)) {
                 continue;
             }
-            $model->$key = utf8_encode($value);
+            $model->$key = mb_convert_encoding($value, 'UTF-8', 'ISO-8859-1');
         }
 
         return $model;
@@ -83,6 +85,8 @@ abstract class Models
      * @param Collection $models
      *
      * @return Collection
+     *
+     * @deprecated This method preserves legacy ISO-8859-1 to UTF-8 conversion behaviour.
      */
     public static function utf8EncodeModels(Collection $models)
     {
