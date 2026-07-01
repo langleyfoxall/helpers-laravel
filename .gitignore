@@ -2,5 +2,6 @@
 .vscode/
 vendor/
 composer.lock
+.phpunit.cache/
 
 .DS_Store
