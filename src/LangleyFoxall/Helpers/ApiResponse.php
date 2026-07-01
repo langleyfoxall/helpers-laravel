@@ -77,7 +77,7 @@ class ApiResponse implements \ArrayAccess
      *
      * @return $this
      */
-    public function data(array $data = null)
+    public function data(?array $data = null)
     {
         $this->data = $data;
 
@@ -89,7 +89,7 @@ class ApiResponse implements \ArrayAccess
      *
      * @return $this
      */
-    public function meta(array $meta = null)
+    public function meta(?array $meta = null)
     {
         $this->meta = $meta;
 
@@ -122,7 +122,7 @@ class ApiResponse implements \ArrayAccess
      *
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->data[$offset]);
     }
@@ -132,7 +132,7 @@ class ApiResponse implements \ArrayAccess
      *
      * @return mixed|null
      */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return isset($this->data[$offset])
             ? $this->data[$offset] : null;
@@ -142,7 +142,7 @@ class ApiResponse implements \ArrayAccess
      * @param string $offset
      * @param mixed  $value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->data[$offset] = $value;
     }
@@ -150,7 +150,7 @@ class ApiResponse implements \ArrayAccess
     /**
      * @param string $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->data[$offset]);
     }
